@@ -4,185 +4,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHOPOHOLICS - Online Shopping</title>
+    <title>SHOPOHOLICS | Online Shopping Store</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-    <h1>SHOPOHOLICS</h1>
-    <p>Your Style, Your Choice!</p>
-</header>
-
-<nav>
-    <a href="#home">Home</a>
-    <a href="#categories">Categories</a>
-    <a href="#products">Products</a>
-    <a href="#wishlist">Wishlist ❤️ (<span id="wish-count">0</span>)</a>
-    <a href="#cart">Cart 🛒 (<span id="nav-count">0</span>)</a>
-    <a href="#admin">Admin</a>
-</nav>
-
-<!-- Homepage Banner -->
-<section class="hero" id="home">
-    <div>
-        <h2>Discover Your Perfect Style!</h2>
-        <p>Shop your favorite products at amazing prices.</p>
-        <a href="#products" class="shop-btn">SHOP NOW</a>
+    <!-- Announcement Bar -->
+    <div class="announcement">
+        FREE DELIVERY ON ORDERS ABOVE RS. 5000
     </div>
-</section>
 
-<!-- Special Offers -->
-<section class="offers">
-    <h2>Special Shopping Experience</h2>
-    <p>Explore our latest collections and find something you love!</p>
-</section>
+    <!-- Header -->
+    <header>
+        <div class="logo">SHOPOHOLICS<span>.</span></div>
 
-<!-- Categories -->
-<section class="section" id="categories">
-    <h2>Shop By Category</h2>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#categories">Categories</a>
+            <a href="#products">Shop</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
 
-    <div class="categories">
-        <button class="category-btn active" data-category="All">All</button>
-        <button class="category-btn" data-category="Clothing">Clothing</button>
-        <button class="category-btn" data-category="Shoes">Shoes</button>
-        <button class="category-btn" data-category="Bags">Bags</button>
-        <button class="category-btn" data-category="Accessories">Accessories</button>
-        <button class="category-btn" data-category="Electronics">Electronics</button>
-    </div>
-</section>
-
-<!-- Products -->
-<section class="section" id="products">
-    <h2>Our Products</h2>
-
-    <input type="search" id="search"
-           class="search"
-           placeholder="Search your favorite products...">
-
-    <div class="products" id="product-list"></div>
-    <p id="no-products" hidden>No products found!</p>
-</section>
-
-<!-- Wishlist -->
-<section class="section" id="wishlist">
-    <h2>My Wishlist ❤️</h2>
-    <div class="products" id="wishlist-items"></div>
-    <p id="empty-wishlist">Your wishlist is empty.</p>
-</section>
-
-<!-- Shopping Cart -->
-<section class="cart-section" id="cart">
-    <h2>My Shopping Cart 🛒</h2>
-
-    <div id="cart-items"></div>
-
-    <h3>Total Items: <span id="cart-count">0</span></h3>
-    <h3>Total Amount: Rs. <span id="cart-total">0</span></h3>
-
-    <button class="clear-btn" onclick="clearCart()">
-        Clear Cart
-    </button>
-
-    <button onclick="openCheckout()">
-        Proceed to Checkout
-    </button>
-</section>
-
-<!-- Checkout -->
-<section class="checkout-section" id="checkout">
-    <h2>Complete Your Order</h2>
-
-    <form id="checkout-form">
-
-        <label>Full Name</label>
-        <input type="text" id="customer-name"
-               placeholder="Enter your full name" required>
-
-        <label>Email Address</label>
-        <input type="email" id="customer-email"
-               placeholder="Enter your email" required>
-
-        <label>Phone Number</label>
-        <input type="tel" id="customer-phone"
-               placeholder="Enter your phone number"
-               pattern="[0-9+ -]{7,20}" required>
-
-        <label>Delivery Address</label>
-        <textarea id="customer-address"
-                  placeholder="Enter complete delivery address"
-                  required></textarea>
-
-        <label>Payment Method</label>
-        <select id="payment-method" required>
-            <option value="">Select payment method</option>
-            <option value="Cash on Delivery">Cash on Delivery</option>
-        </select>
-
-        <div class="order-summary">
-            <h3>Order Total: Rs. <span id="checkout-total">0</span></h3>
+        <div class="header-icons">
+            <a href="#products">♡ Wishlist</a>
+            <a href="#cart">🛒 Cart <span id="cart-count">0</span></a>
         </div>
+    </header>
 
-        <button type="submit">Place Order</button>
-    </form>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="subtitle">YOUR STYLE, YOUR CHOICE</p>
+            <h1>Discover Your<br>Perfect Style</h1>
+            <p>
+                Explore the latest fashion, beauty and lifestyle
+                collections at amazing prices.
+            </p>
+            <a href="#products" class="shop-btn">SHOP NOW →</a>
+        </div>
+    </section>
 
-    <p id="order-message"></p>
-</section>
+    <!-- Categories -->
+    <section class="categories" id="categories">
+        <h2>Shop By Category</h2>
+        <p>Find everything you love in one place.</p>
 
-<!-- Admin Dashboard -->
-<section class="admin-section" id="admin">
-    <h2>Admin Dashboard</h2>
-    <p>Manage your SHOPOHOLICS products.</p>
+        <div class="category-container">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500" alt="Women's Fashion">
+                <h3>Women's Fashion</h3>
+                <a href="#products">Explore Now →</a>
+            </div>
 
-    <form id="product-form">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" alt="Accessories">
+                <h3>Accessories</h3>
+                <a href="#products">Explore Now →</a>
+            </div>
 
-        <input type="hidden" id="edit-id">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" alt="Shoes">
+                <h3>Shoes</h3>
+                <a href="#products">Explore Now →</a>
+            </div>
+        </div>
+    </section>
 
-        <label>Product Name</label>
-        <input type="text" id="product-name"
-               placeholder="Product name" required>
+    <!-- Products -->
+    <section class="products" id="products">
+        <h2>Trending Products</h2>
+        <p>Our most loved picks just for you.</p>
 
-        <label>Product Price (Rs.)</label>
-        <input type="number" id="product-price"
-               min="1" placeholder="Price" required>
+        <div class="product-container">
 
-        <label>Product Category</label>
-        <select id="product-category" required>
-            <option value="">Select Category</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Shoes">Shoes</option>
-            <option value="Bags">Bags</option>
-            <option value="Accessories">Accessories</option>
-            <option value="Electronics">Electronics</option>
-        </select>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500" alt="Handbag">
+                <h3>Elegant Handbag</h3>
+                <p>Rs. 3,500</p>
+                <button onclick="addToCart('Elegant Handbag', 3500)">Add to Cart</button>
+            </div>
 
-        <label>Product Image URL</label>
-        <input type="url" id="product-image"
-               placeholder="Paste image URL" required>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=500" alt="Fashion Outfit">
+                <h3>Fashion Outfit</h3>
+                <p>Rs. 4,500</p>
+                <button onclick="addToCart('Fashion Outfit', 4500)">Add to Cart</button>
+            </div>
 
-        <button type="submit" id="save-button">Add Product</button>
-        <button type="button" id="cancel-edit"
-                class="clear-btn" hidden>Cancel Edit</button>
-    </form>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500" alt="Women's Shoes">
+                <h3>Stylish Shoes</h3>
+                <p>Rs. 2,800</p>
+                <button onclick="addToCart('Stylish Shoes', 2800)">Add to Cart</button>
+            </div>
 
-    <h3>Manage Existing Products</h3>
-    <div id="admin-products"></div>
-</section>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500" alt="Watch">
+                <h3>Classic Watch</h3>
+                <p>Rs. 3,000</p>
+                <button onclick="addToCart('Classic Watch', 3000)">Add to Cart</button>
+            </div>
 
-<footer>
-    <h2>SHOPOHOLICS</h2>
-    <p>Your Style, Your Choice!</p>
-    <p>Contact: shopoholics@gmail.com</p>
-    <p>© 2026 SHOPOHOLICS. All Rights Reserved.</p>
-</footer>
+        </div>
+    </section>
 
-<script src="script.js"></script>
-</body>
-</html>
+    <!-- Special Offer -->
+    <section class="offer">
+        <h2>Special Shopping Offer!</h2>
+        <p>Enjoy exclusive deals on your favourite products.</p>
+        <a href="#products" class="shop-btn">EXPLORE COLLECTION</a>
+    </section>
 
+    <!-- Cart -->
+    <section class="cart-section" id="cart">
+        <h2>Your Shopping Cart</h2>
+        <div id="cart-items">
+            <p>Your cart is currently empty.</p>
+        </div>
+        <h3>Total: Rs. <span id="cart-total">0</span></h3>
+        <button onclick="checkout()">Proceed to Checkout</button>
+    </section>
 
+    <!-- About -->
+    <section class="about" id="about">
+        <h2>About SHOPOHOLICS</h2>
+        <p>
+            SHOPOHOLICS is your online shopping destination.
+            We bring you stylish fashion, beautiful accessories
+            and quality products at affordable prices.
+            Shop smart, shop stylish!
+        </p>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: support@shopoholics.com</p>
+        <p>Online Shopping Made Easy!</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h2>SHOPOHOLICS.</h2>
+        <p>Style • Quality • Happiness</p>
+        <p>© 2026 SHOPOHOLICS. All Rights Reserved.</p>
+    </footer>
 
     <script src="script.js"></script>
 
 </body>
 </html>
+
