@@ -1,4 +1,5 @@
 
+
 // SHOPOHOLICS - SHOPPING WEBSITE
 
 const defaultProducts = [
@@ -10,7 +11,6 @@ const defaultProducts = [
     {id: 6, name: "Headphones", price: 2200, category: "Electronics", image: "https://placehold.co/300x220?text=Headphones"}
 ];
 
-// Load saved data safely
 function loadData(key, fallback) {
     try {
         const saved = localStorage.getItem(key);
@@ -20,30 +20,39 @@ function loadData(key, fallback) {
     }
 }
 
-let products = loadData("shopoholics-products", defaultProducts);
-let cart = loadData("shopoholics-cart", []);
-let wishlist = loadData("shopoholics-wishlist", []);
-let selectedCategory = "All";
-
-// Save data
 function saveData(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Render products
+let products = loadData("shopoholics-products", defaultProducts);
+let cart = loadData("shopoholics-cart", []);
+let wishlist = loadData("shopoholics-wishlist", []);
+let orders = loadData("shopoholics-orders", []);
+let selectedCategory = "All";
+
+// Format prices
+function formatPrice(price) {
+    return Number(price).toLocaleString("en-PK");
+}
+
+// HOME PAGE: Products
 function renderProducts() {
     const list = document.getElementById("product-list");
-    const search = document.getElementById("search").value.toLowerCase();
+    if (!list) return;
+
+    const searchInput = document.getElementById("search");
+    const search = searchInput ? searchInput.value.toLowerCase() : "";
 
     list.innerHTML = "";
 
-    const filtered = products.filter(product => {
-        return product.name.toLowerCase().includes(search) &&
-            (selectedCategory === "All" ||
-             product.category === selectedCategory);
-    });
+    const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(search) &&
+        (selectedCategory === "All" ||
+         product.category === selectedCategory)
+    );
 
-    document.getElementById("no-products").hidden = filtered.length > 0;
+    const noProducts = document.getElementById("no-products");
+    if (noProducts) noProducts.hidden = filtered.length > 0;
 
     filtered.forEach(product => {
         const card = document.createElement("div");
@@ -65,7 +74,7 @@ function renderProducts() {
 
         const price = document.createElement("p");
         price.className = "price";
-        price.textContent = "Rs. " + product.price.toLocaleString("en-PK");
+        price.textContent = "Rs. " + formatPrice(product.price);
 
         const addButton = document.createElement("button");
         addButton.textContent = "Add to Cart";
@@ -75,16 +84,19 @@ function renderProducts() {
         wishButton.className = "wishlist-btn";
         const isSaved = wishlist.includes(product.id);
         wishButton.textContent = isSaved ? "♥ Saved" : "♡ Wishlist";
+
         if (isSaved) wishButton.classList.add("saved");
 
-        wishButton.addEventListener("click", () => toggleWishlist(product.id));
+        wishButton.addEventListener("click", () =>
+            toggleWishlist(product.id)
+        );
 
         card.append(img, name, category, price, addButton, wishButton);
         list.appendChild(card);
     });
 }
 
-// Wishlist
+// WISHLIST
 function toggleWishlist(id) {
     if (wishlist.includes(id)) {
         wishlist = wishlist.filter(item => item !== id);
@@ -99,16 +111,19 @@ function toggleWishlist(id) {
 
 function renderWishlist() {
     const list = document.getElementById("wishlist-items");
+    if (!list) return;
+
     list.innerHTML = "";
 
     const savedProducts = products.filter(product =>
         wishlist.includes(product.id)
     );
 
-    document.getElementById("wish-count").textContent = savedProducts.length;
+    const count = document.getElementById("wish-count");
+    if (count) count.textContent = savedProducts.length;
 
-    document.getElementById("empty-wishlist").hidden =
-        savedProducts.length > 0;
+    const empty = document.getElementById("empty-wishlist");
+    if (empty) empty.hidden = savedProducts.length > 0;
 
     savedProducts.forEach(product => {
         const card = document.createElement("div");
@@ -123,7 +138,7 @@ function renderWishlist() {
 
         const price = document.createElement("p");
         price.className = "price";
-        price.textContent = "Rs. " + product.price.toLocaleString("en-PK");
+        price.textContent = "Rs. " + formatPrice(product.price);
 
         const add = document.createElement("button");
         add.textContent = "Add to Cart";
@@ -139,7 +154,7 @@ function renderWishlist() {
     });
 }
 
-// Shopping Cart
+// SHOPPING CART
 function addToCart(id) {
     const product = products.find(item => item.id === id);
     if (!product) return;
@@ -153,40 +168,57 @@ function addToCart(id) {
 
 function renderCart() {
     const list = document.getElementById("cart-items");
-    list.innerHTML = "";
 
-    let total = 0;
+    if (list) {
+        list.innerHTML = "";
 
-    cart.forEach((item, index) => {
-        total += item.price;
+        if (cart.length === 0) {
+            list.innerHTML = "<p>Your cart is empty.</p>";
+        }
 
-        const row = document.createElement("div");
-        row.className = "cart-item";
+        let total = 0;
 
-        const details = document.createElement("span");
-        details.textContent = item.name + " - Rs. " +
-            item.price.toLocaleString("en-PK");
+        cart.forEach((item, index) => {
+            total += Number(item.price);
 
-        const remove = document.createElement("button");
-        remove.textContent = "Remove";
-        remove.className = "remove-cart";
+            const row = document.createElement("div");
+            row.className = "cart-item";
 
-        remove.addEventListener("click", () => {
-            cart.splice(index, 1);
-            saveData("shopoholics-cart", cart);
-            renderCart();
+            const details = document.createElement("span");
+            details.textContent = item.name + " - Rs. " +
+                formatPrice(item.price);
+
+            const remove = document.createElement("button");
+            remove.textContent = "Remove";
+            remove.className = "remove-cart";
+
+            remove.addEventListener("click", () => {
+                cart.splice(index, 1);
+                saveData("shopoholics-cart", cart);
+                renderCart();
+            });
+
+            row.append(details, remove);
+            list.appendChild(row);
         });
 
-        row.append(details, remove);
-        list.appendChild(row);
-    });
+        const cartTotal = document.getElementById("cart-total");
+        if (cartTotal) cartTotal.textContent = formatPrice(total);
+    }
 
-    document.getElementById("cart-count").textContent = cart.length;
-    document.getElementById("nav-count").textContent = cart.length;
-    document.getElementById("cart-total").textContent =
-        total.toLocaleString("en-PK");
-    document.getElementById("checkout-total").textContent =
-        total.toLocaleString("en-PK");
+    const count = document.getElementById("nav-count");
+    if (count) count.textContent = cart.length;
+
+    const cartCount = document.getElementById("cart-count");
+    if (cartCount) cartCount.textContent = cart.length;
+
+    const checkoutTotal = document.getElementById("checkout-total");
+    if (checkoutTotal) {
+        const total = cart.reduce((sum, item) =>
+            sum + Number(item.price), 0
+        );
+        checkoutTotal.textContent = formatPrice(total);
+    }
 }
 
 function clearCart() {
@@ -195,20 +227,30 @@ function clearCart() {
     renderCart();
 }
 
-// Checkout
+// OPEN SEPARATE CHECKOUT PAGE
 function openCheckout() {
     if (cart.length === 0) {
         alert("Your cart is empty! Please add products first.");
         return;
     }
 
-    document.getElementById("checkout").scrollIntoView({
-        behavior: "smooth"
-    });
+    window.location.href = "checkout.html";
 }
 
-document.getElementById("checkout-form").addEventListener(
-    "submit", function(event) {
+// CHECKOUT PAGE
+function setupCheckout() {
+    const form = document.getElementById("checkout-form");
+    if (!form) return;
+
+    if (cart.length === 0) {
+        alert("Your cart is empty. Please add products first.");
+        window.location.href = "index.html#shop";
+        return;
+    }
+
+    renderCart();
+
+    form.addEventListener("submit", function(event) {
         event.preventDefault();
 
         if (cart.length === 0) {
@@ -227,25 +269,48 @@ document.getElementById("checkout-form").addEventListener(
         }
 
         const orderNumber = "SH" + Date.now().toString().slice(-8);
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        const total = cart.reduce((sum, item) =>
+            sum + Number(item.price), 0
+        );
 
-        document.getElementById("order-message").textContent =
-            "Thank you, " + customer +
-            "! Demo order " + orderNumber +
-            " created. Total: Rs. " + total.toLocaleString("en-PK") +
-            ". No real order has been sent.";
+        const newOrder = {
+            orderNumber,
+            customer,
+            email,
+            phone,
+            address,
+            items: [...cart],
+            total,
+            date: new Date().toLocaleString(),
+            status: "Pending"
+        };
+
+        orders.push(newOrder);
+        saveData("shopoholics-orders", orders);
+
+        const message = document.getElementById("order-message");
+
+        if (message) {
+            message.textContent =
+                "Thank you, " + customer +
+                "! Demo order " + orderNumber +
+                " created. Total: Rs. " + formatPrice(total) +
+                ". No real order has been sent.";
+        }
 
         cart = [];
         saveData("shopoholics-cart", cart);
         renderCart();
+        form.reset();
+    });
+}
 
-        this.reset();
-    }
-);
+// ADMIN: ADD AND EDIT PRODUCTS
+function setupAdmin() {
+    const form = document.getElementById("product-form");
+    if (!form) return;
 
-// Admin: Add and edit products
-document.getElementById("product-form").addEventListener(
-    "submit", function(event) {
+    form.addEventListener("submit", function(event) {
         event.preventDefault();
 
         const id = document.getElementById("edit-id").value;
@@ -281,12 +346,18 @@ document.getElementById("product-form").addEventListener(
         saveData("shopoholics-products", products);
         resetForm();
         refreshWebsite();
-    }
-);
+    });
 
-// Admin product list
+    const cancel = document.getElementById("cancel-edit");
+    if (cancel) cancel.addEventListener("click", resetForm);
+
+    renderAdminProducts();
+}
+
 function renderAdminProducts() {
     const list = document.getElementById("admin-products");
+    if (!list) return;
+
     list.innerHTML = "";
 
     products.forEach(product => {
@@ -298,7 +369,8 @@ function renderAdminProducts() {
         img.alt = product.name;
 
         const details = document.createElement("span");
-        details.textContent = product.name + " | Rs. " + product.price;
+        details.textContent =
+            product.name + " | Rs. " + formatPrice(product.price);
 
         const edit = document.createElement("button");
         edit.textContent = "Edit";
@@ -328,9 +400,7 @@ function editProduct(id) {
     document.getElementById("save-button").textContent = "Update Product";
     document.getElementById("cancel-edit").hidden = false;
 
-    document.getElementById("admin").scrollIntoView({
-        behavior: "smooth"
-    });
+    window.scrollTo({top: 0, behavior: "smooth"});
 }
 
 function deleteProduct(id) {
@@ -349,42 +419,83 @@ function deleteProduct(id) {
 }
 
 function resetForm() {
-    document.getElementById("product-form").reset();
+    const form = document.getElementById("product-form");
+    if (!form) return;
+
+    form.reset();
     document.getElementById("edit-id").value = "";
     document.getElementById("save-button").textContent = "Add Product";
     document.getElementById("cancel-edit").hidden = true;
 }
 
-document.getElementById("cancel-edit").addEventListener(
-    "click", resetForm
-);
+// ADMIN: VIEW SAVED DEMO ORDERS
+function renderAdminOrders() {
+    const list = document.getElementById("admin-orders");
+    if (!list) return;
 
-// Search
-document.getElementById("search").addEventListener(
-    "input", renderProducts
-);
+    list.innerHTML = "";
 
-// Category filter
-document.querySelectorAll(".category-btn").forEach(button => {
-    button.addEventListener("click", () => {
-        selectedCategory = button.dataset.category;
+    if (orders.length === 0) {
+        list.textContent = "No orders have been placed yet.";
+        return;
+    }
 
-        document.querySelectorAll(".category-btn").forEach(btn => {
-            btn.classList.remove("active");
+    orders.forEach(order => {
+        const box = document.createElement("div");
+        box.className = "admin-product";
+
+        const details = document.createElement("p");
+        details.textContent =
+            order.orderNumber + " | " + order.customer +
+            " | Rs. " + formatPrice(order.total) +
+            " | " + order.status +
+            " | " + order.date;
+
+        const status = document.createElement("button");
+        status.textContent = "Mark Completed";
+        status.addEventListener("click", () => {
+            order.status = "Completed";
+            saveData("shopoholics-orders", orders);
+            renderAdminOrders();
         });
 
-        button.classList.add("active");
-        renderProducts();
+        box.append(details, status);
+        list.appendChild(box);
     });
-});
+}
 
-// Refresh all sections
+// SEARCH AND CATEGORY FILTER
+function setupFilters() {
+    const search = document.getElementById("search");
+    if (search) {
+        search.addEventListener("input", renderProducts);
+    }
+
+    document.querySelectorAll(".category-btn").forEach(button => {
+        button.addEventListener("click", () => {
+            selectedCategory = button.dataset.category;
+
+            document.querySelectorAll(".category-btn").forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+            renderProducts();
+        });
+    });
+}
+
+// REFRESH
 function refreshWebsite() {
     renderProducts();
     renderWishlist();
     renderCart();
     renderAdminProducts();
+    renderAdminOrders();
 }
 
-// Start website
+// START
 refreshWebsite();
+setupFilters();
+setupCheckout();
+setupAdmin();
