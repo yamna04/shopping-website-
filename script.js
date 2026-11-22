@@ -388,8 +388,3 @@ function refreshWebsite() {
 
 // Start website
 refreshWebsite();
-
-    document.getElementById("cart-items").innerHTML = "";
-
-    alert("Your cart has been cleared!");
-}
