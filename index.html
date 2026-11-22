@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SHOPOHOLICS - Online Shopping</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>SHOPOHOLICS</h1>
+        <p>Your Style, Your Choice!</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#categories">Categories</a>
+        <a href="#cart">My Cart</a>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="welcome" id="home">
+        <h2>Welcome to SHOPOHOLICS</h2>
+        <p>Discover amazing products at amazing prices!</p>
+        <a href="#products" class="shop-btn">Shop Now</a>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories">
+        <h2>Our Categories</h2>
+
+        <div class="category-list">
+            <div class="category">Clothing</div>
+            <div class="category">Shoes</div>
+            <div class="category">Bags</div>
+            <div class="category">Accessories</div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="container" id="products">
+
+        <h2>Our Products</h2>
+
+        <div class="products">
+
+            <div class="product-box">
+                <img src="https://placehold.co/300x220?text=Fashion+Dress" alt="Fashion Dress">
+                <h3>Fashion Dress</h3>
+                <p class="price">Rs. 2,500</p>
+                <button onclick="addToCart('Fashion Dress',2500)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="product-box">
+                <img src="https://placehold.co/300x220?text=Shoes" alt="Shoes">
+                <h3>Stylish Shoes</h3>
+                <p class="price">Rs. 3,500</p>
+                <button onclick="addToCart('Stylish Shoes',3500)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="product-box">
+                <img src="https://placehold.co/300x220?text=Handbag" alt="Handbag">
+                <h3>Beautiful Handbag</h3>
+                <p class="price">Rs. 2,000</p>
+                <button onclick="addToCart('Beautiful Handbag',2000)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="product-box">
+                <img src="https://placehold.co/300x220?text=Watch" alt="Watch">
+                <h3>Luxury Watch</h3>
+                <p class="price">Rs. 1,800</p>
+                <button onclick="addToCart('Luxury Watch',1800)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="product-box">
+                <img src="https://placehold.co/300x220?text=Jewellery" alt="Jewellery">
+                <h3>Jewellery Set</h3>
+                <p class="price">Rs. 1,500</p>
+                <button onclick="addToCart('Jewellery Set',1500)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="product-box">
+                <img src="https://placehold.co/300x220?text=Headphones" alt="Headphones">
+                <h3>Headphones</h3>
+                <p class="price">Rs. 2,200</p>
+                <button onclick="addToCart('Headphones',2200)">
+                    Add to Cart
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Shopping Cart -->
+    <section class="cart" id="cart">
+
+        <h2>My Shopping Cart</h2>
+
+        <p>Total Items: <span id="cart-count">0</span></p>
+
+        <ul id="cart-items"></ul>
+
+        <h3>Total Amount: Rs. <span id="cart-total">0</span></h3>
+
+        <button onclick="clearCart()" class="clear-btn">
+            Clear Cart
+        </button>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h2>SHOPOHOLICS</h2>
+        <p>Your Style, Your Choice!</p>
+        <p>Contact: shopoholics@gmail.com</p>
+        <p>© 2026 SHOPOHOLICS. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
