@@ -21,16 +21,40 @@
     <nav>
         <a href="index.html">Home</a>
         <a href="index.html#shop">Shop</a>
-        <a href="index.html#cart">Cart</a>
-        <a href="checkout.html">Checkout</a>
+        <a href="cart.html">Cart</a>
+        <a href="admin.html">Dashboard</a>
     </nav>
 
     <section class="admin-section">
 
-        <h2>Admin Dashboard</h2>
-        <p>Manage your store products from one place.</p>
+        <h2>Welcome, Store Owner!</h2>
+        <p>Manage your SHOPOHOLICS online store.</p>
 
+        <!-- Dashboard Overview -->
+        <h2>Store Overview</h2>
+
+        <div class="admin-stats">
+
+            <div class="admin-stat-card">
+                <h3>Total Products</h3>
+                <p id="total-products">0</p>
+            </div>
+
+            <div class="admin-stat-card">
+                <h3>Total Orders</h3>
+                <p id="total-orders">0</p>
+            </div>
+
+            <div class="admin-stat-card">
+                <h3>Store Inventory Value</h3>
+                <p id="store-value">Rs. 0</p>
+            </div>
+
+        </div>
+
+        <!-- Product Management -->
         <h2>Manage Products</h2>
+        <p>Add new products or update your existing products.</p>
 
         <form id="product-form">
 
@@ -71,8 +95,10 @@
         <h2>My Store Products</h2>
         <div id="admin-products"></div>
 
+        <!-- Customer Orders -->
         <h2>Customer Orders</h2>
-        <p>View orders placed through the demo checkout.</p>
+        <p>Orders recorded in this browser will appear here.</p>
+
         <div id="admin-orders"></div>
 
     </section>
